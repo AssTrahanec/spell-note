@@ -1,0 +1,174 @@
+basePath: /
+definitions:
+  SpellNote.Note:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  SpellNote.NoteInput:
+    properties:
+      description:
+        type: string
+    type: object
+  SpellNote.UserInput:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  handler.getAllNotesResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/SpellNote.Note'
+        type: array
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: API Server for SpellNotes
+  title: SpellNote API
+  version: "1.0"
+paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: login
+      operationId: login
+      parameters:
+      - description: User info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/SpellNote.UserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "404":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Login
+      tags:
+      - auth
+  /api/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: registration
+      parameters:
+      - description: User info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/SpellNote.UserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Registration
+      tags:
+      - auth
+  /api/note:
+    get:
+      consumes:
+      - application/json
+      description: get all user notes
+      operationId: get-user-note
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.getAllNotesResponse'
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "404":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Get User Notes
+      tags:
+      - notes
+    post:
+      consumes:
+      - application/json
+      description: create note
+      operationId: create-note
+      parameters:
+      - description: note info
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/SpellNote.NoteInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "404":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: Create note
+      tags:
+      - notes
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
