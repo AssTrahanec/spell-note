@@ -10,10 +10,9 @@
 ## Установка и запуск
 
 1. Клонируйте репозиторий:
-
-   ```bash
-   git clone https://github.com/asstrahanec/spell-note-api.git
-   cd SpellNote
+```sh
+git clone https://github.com/AssTrahanec/spell-note.git
+```
 ## Docker Compose:
 ### 1: Запуск базы данных
 ```sh
